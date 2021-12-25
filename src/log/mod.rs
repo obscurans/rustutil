@@ -1,7 +1,8 @@
-//! An opinionated [`env_logger`] [`format`](Builder::format), re-exporting the usual [`log`](mod@log) macros.
+//! An opinionated [`env_logger`] [`format`](Builder::format).
 
 use env_logger::fmt::Formatter;
 use env_logger::Builder;
+use log::info;
 use log::Record;
 use std::io::{Result, Write};
 
@@ -11,7 +12,7 @@ mod time;
 use style::*;
 
 #[doc(no_inline)]
-pub use log::{debug, error, info, log, trace, warn, Level};
+pub use log::Level;
 
 /// Initializes the preset [`Logger`](env_logger::Logger) as global.
 pub fn init_logformat() {

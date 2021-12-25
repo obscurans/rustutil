@@ -67,8 +67,8 @@ pub fn write_target(f: &mut Formatter, target: &str) -> Result<()> {
     Ok(())
 }
 
-fn write_rustutil(f: &mut Formatter, rest: &str, len: &mut usize, s: &TargetStyles) -> Result<()> {
-    let (next, rest) = rest.split_once("::").unwrap_or((rest, ""));
+fn write_rustutil(f: &mut Formatter, rem: &str, len: &mut usize, s: &TargetStyles) -> Result<()> {
+    let (next, rest) = rem.split_once("::").unwrap_or((rem, ""));
     match next {
         "log" => {
             *len += 1;
@@ -77,19 +77,13 @@ fn write_rustutil(f: &mut Formatter, rest: &str, len: &mut usize, s: &TargetStyl
                 write_other(f, rest, len, s)?;
             }
         }
-        _ => {
-            *len += SEP_LEN + next.len();
-            write!(f, "{}{}", s.deemph.value(TARGET_SEP), s.info.value(next))?;
-            if !rest.is_empty() {
-                write_other(f, rest, len, s)?;
-            }
-        }
+        _ => write_other(f, rem, len, s)?,
     }
     Ok(())
 }
 
-fn write_other<'a>(f: &mut Formatter, rest: &str, len: &mut usize, s: &TargetStyles) -> Result<()> {
-    let (rest, last) = rest.rsplit_once("::").unwrap_or(("", rest));
+fn write_other<'a>(f: &mut Formatter, rem: &str, len: &mut usize, s: &TargetStyles) -> Result<()> {
+    let (rest, last) = rem.rsplit_once("::").unwrap_or(("", rem));
     if !rest.is_empty() {
         for chunk in rest.split("::") {
             *len += SEP_LEN + chunk.len();
