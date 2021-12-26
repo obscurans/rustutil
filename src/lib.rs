@@ -2,11 +2,13 @@
 
 #![warn(missing_docs)]
 
-pub mod export;
 pub mod fs;
 pub mod log;
+pub mod prelude;
+#[cfg(feature = "chrono")]
 mod timer;
 
+#[cfg(feature = "chrono")]
 pub use timer::Timer;
 
 #[cfg(test)]

@@ -1,6 +1,7 @@
 //! Opinionated list of standard imports.
 
 #[doc(no_inline)]
+#[cfg(feature = "chrono")]
 pub use crate::Timer;
 #[doc(no_inline)]
 pub use color_eyre::eyre::{eyre, Result, WrapErr};
