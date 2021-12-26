@@ -3,9 +3,12 @@ use std::time::{Duration, Instant};
 
 /// RAII timer utility using [`env_logger`].
 pub struct Timer<'a> {
-    start: Instant,
-    msg: &'a str,
-    level: Level,
+    /// Base time to measure against.
+    pub start: Instant,
+    /// Message to print on log.
+    pub msg: &'a str,
+    /// [`Level`] to log at.
+    pub level: Level,
 }
 
 impl Timer<'_> {
@@ -43,6 +46,49 @@ impl Timer<'_> {
     pub fn error(msg: &str) -> Timer {
         Timer::new(Level::Error, msg)
     }
+
+    /// Logs an extra message at the given [`Level`] with the current time elapsed, stored message, and passed 2nd message.
+    pub fn log_at(&self, level: Level, msg2: &str) {
+        log!(
+            level,
+            "[{}]{}{}{}{}",
+            format_duration(self.start.elapsed()),
+            sep(self.msg),
+            self.msg,
+            sep2(self.msg, msg2),
+            msg2
+        )
+    }
+
+    /// Convenience function to log extra message at the stored [`Level`]
+    pub fn log(&self, msg2: &str) {
+        self.log_at(self.level, msg2)
+    }
+
+    /// Convenience function to log extra message at [`Level::Trace`].
+    pub fn log_trace(&self, msg2: &str) {
+        self.log_at(Level::Trace, msg2)
+    }
+
+    /// Convenience function to log extra message at [`Level::Debug`].
+    pub fn log_debug(&self, msg2: &str) {
+        self.log_at(Level::Debug, msg2)
+    }
+
+    /// Convenience function to log extra message at [`Level::Info`].
+    pub fn log_info(&self, msg2: &str) {
+        self.log_at(Level::Info, msg2)
+    }
+
+    /// Convenience function to log extra message at [`Level::Warn`].
+    pub fn log_warn(&self, msg2: &str) {
+        self.log_at(Level::Warn, msg2)
+    }
+
+    /// Convenience function to log extra message at [`Level::Error`].
+    pub fn log_error(&self, msg2: &str) {
+        self.log_at(Level::Error, msg2)
+    }
 }
 
 /// Prints another log at the chosen [`Level`] measuring time elapsed, with the stored message.
@@ -63,6 +109,16 @@ fn sep(msg: &str) -> &str {
         ""
     } else {
         " "
+    }
+}
+
+fn sep2(msg: &str, msg2: &str) -> &'static str {
+    if msg.is_empty() && msg2.is_empty() {
+        ""
+    } else if msg.is_empty() || msg2.is_empty() {
+        " "
+    } else {
+        ": "
     }
 }
 
