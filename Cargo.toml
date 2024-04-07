@@ -11,9 +11,12 @@ flate2 = "1.0"
 itertools = "0.10"
 log = "0.4"
 regex = { version = "1.5", optional = true }
+rental = { version = "0.5", optional = true }
+sdl2 = { version = "0.36", optional = true }
 
 [features]
 default = ["chrono", "regex"]
+sdl = ["dep:sdl2", "dep:rental"]
 
 [profile.profile]
 inherits = "release"

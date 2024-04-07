@@ -1,5 +1,10 @@
 //! A bunch of personal utilities.
 #![warn(missing_docs)]
+
+#[cfg(feature = "sdl")]
+#[macro_use]
+extern crate rental;
+
 pub mod fs;
 pub mod log;
 pub mod prelude;
@@ -8,6 +13,9 @@ pub mod prelude;
 mod timer;
 #[cfg(feature = "chrono")]
 pub use timer::Timer;
+
+#[cfg(feature = "sdl")]
+pub mod sdl;
 
 #[cfg(test)]
 mod tests {
