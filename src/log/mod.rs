@@ -1,5 +1,4 @@
 //! An opinionated [`env_logger`] [`format`](Builder::format).
-
 use env_logger::fmt::Formatter;
 use env_logger::Builder;
 use log::info;

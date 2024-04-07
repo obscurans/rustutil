@@ -5,12 +5,23 @@ edition = "2021"
 
 [dependencies]
 chrono = { version = "0.4", optional = true }
-color-eyre = "0.5"
+color-eyre = "0.6"
+env_logger = "0.9"
 flate2 = "1.0"
 itertools = "0.10"
-env_logger = "0.9"
 log = "0.4"
 regex = { version = "1.5", optional = true }
 
 [features]
 default = ["chrono", "regex"]
+
+[profile.profile]
+inherits = "release"
+debug = 1
+strip = false
+
+[profile.dev]
+opt-level = 3
+
+[profile.dev.package.backtrace]
+opt-level = 3

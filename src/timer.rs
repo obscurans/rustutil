@@ -1,3 +1,4 @@
+//! Timer utility class.
 use log::{log, Level};
 use std::time::{Duration, Instant};
 

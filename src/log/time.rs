@@ -84,7 +84,7 @@ pub fn write_timestamp(f: &mut Formatter, ts: DateTime<Local>) -> Result<()> {
     }
     write!(f, "{}", tzf.value(ts.format("%:z")))?;
 
-    LAST_TIMESTAMP.store(ts.timestamp_nanos(), ORDERING);
+    LAST_TIMESTAMP.store(ts.timestamp_nanos_opt().unwrap(), ORDERING);
     LAST_OFFSET.store(cur_off, ORDERING);
     Ok(())
 }
